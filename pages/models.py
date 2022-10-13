@@ -15,7 +15,7 @@ class Category(models.Model):
         return self.new_category
 
 
-class Booking(models.Model):
+class Guest(models.Model):
     created_at = models.DateTimeField(default=datetime.now, editable=False)
     uuid = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     first_name = models.CharField(max_length=10, null=True)
@@ -27,23 +27,24 @@ class Booking(models.Model):
     def __str__(self):
         return "%s %s" % (self.first_name, self.last_name)
 
+    @property
+    def delivery_get(self):
+        return self.delivery
+
 
 class Prodact(models.Model):
     created_at = models.DateTimeField(default=datetime.now, editable=False)
     uuid = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
-    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, null=True, verbose_name='booking from')
     name = models.CharField(max_length=40)
     description = models.TextField()
     price = models.DecimalField(max_digits=5, decimal_places=2)
     image = models.ImageField(upload_to='%y/%m/%d')
-    date = models.CharField(default=)
 
-    # def date(self):
-    #     prodact = self.objects.get()
-    #     date = prodact.booking.delivery
-    #
-    #     return "{}".format(date)
+    # @property
+    # def delivery(self):
+    #     return "{}".format()
+
     @property
     def image_tag(self):
         if self.image.url is not None:
@@ -61,3 +62,15 @@ class Prodact(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Booking(models.Model):
+    created_at = models.DateTimeField(default=datetime.now, editable=False)
+    uuid = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False)
+    guest = models.ForeignKey(Guest, on_delete=models.CASCADE, null=True)
+    prodact = models.ForeignKey(Prodact, on_delete=models.PROTECT, null=True)
+
+    def __str__(self):
+        return self.guest.__str__()
+
+
