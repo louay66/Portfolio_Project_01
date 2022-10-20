@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,11 +44,53 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 100,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     # 'DEFAULT_AUTHENTICATION_CLASSES':
     #     ['rest_framework.authentication.TokenAuthentication'],
     # 'DEFAULT_PERMISSION_CLASSES':
     #     ['rest_framework.permissions.IsAuthenticated'],
+
+}
+JAZZMIN_SETTINGS = {
+    "site_title": "Gdaiem Events",
+
+    "site_header": "Gdaiem Events",
+
+    "site_brand": "Gdaiem Events",
+
+    "site_logo": "photos/logo.jpg",
+
+    "login_logo": None,
+
+    "login_logo_dark": True,
+
+    "site_logo_classes": "img-circle",
+
+    "site_icon": None,
+
+    "welcome_sign": "Welcome to the Dashbord",
+
+    "copyright": "louay chaaben",
+
+    "search_model": "auth.User",
+
+
+"topmenu_links": [
+
+
+        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+
+
+        {"model": "auth.User"},
+
+
+        {"app": "pages"},
+
+    ],
+    "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
+
 
 }
 
