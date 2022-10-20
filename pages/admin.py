@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Prodact, Guest, Booking
+from .models import Category, Product, Guest, Booking
 
 
 class GuestAdmin(admin.ModelAdmin):
@@ -8,6 +8,7 @@ class GuestAdmin(admin.ModelAdmin):
 
 
 class BookingAdmin(admin.ModelAdmin):
+
     @staticmethod
     def delivery(obj):
         return obj.guest.delivery
@@ -26,20 +27,18 @@ class BookingAdmin(admin.ModelAdmin):
 
     @staticmethod
     def name_product(obj):
-        return obj.prodact.name
+        return obj.product.name
 
     @staticmethod
     def image(obj):
-        return obj.prodact.image_table()
+        return obj.product.image_table()
 
-    list_display = ['image', 'name', 'name_product', 'delivery', 'receipt', 'phone_number']
-    readonly_fields = ('delivery', 'receipt','name', 'phone_number', 'name_product', 'image')
+    # list_display = ['delivery']
+    # list_display = ['name', 'name_product', 'delivery', 'receipt', 'phone_number', 'image']
+    readonly_fields = ('delivery', 'receipt', 'name', 'phone_number', 'name_product')
 
 
-class ProdactAdmin(admin.ModelAdmin):
-    # prodact = Prodact.objects.get()
-    # date = prodact.booking.delivery
-
+class ProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'price', 'category', 'image_table']
     # list_filter = ['created_at']
     readonly_fields = ('image_tag',)
@@ -53,8 +52,8 @@ class ProdactAdmin(admin.ModelAdmin):
     image_tag.allow_tags = True
 
 
-admin.site.register(Prodact, ProdactAdmin)
+admin.site.register(Product, ProductAdmin)
 admin.site.register(Category)
 admin.site.register(Guest, GuestAdmin)
 admin.site.register(Booking, BookingAdmin)
-# Register your models here.
+# # Register your models here.
